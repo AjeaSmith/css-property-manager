@@ -120,7 +120,7 @@ function updateCSSOutput() {
 		cssString += `    --${varName}: ${colorValue};\n`;
 		hasColors = true;
 	}
-	cssString += " \n }";
+	cssString += " \n}";
 	document.getElementById("cssOutput").textContent = cssString;
 
 	// Enable or disable copy button based on content
@@ -129,3 +129,4 @@ function updateCSSOutput() {
 
 // Initialize output on load (if any colors exist)
 updateCSSOutput();
+
