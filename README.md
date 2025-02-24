@@ -2,7 +2,7 @@
 
 A simple web app that allows users to **define, preview, and store CSS color variables** using **Hex or HSL** values.
 
-![App Screenshot](/images/app.png)
+![App Screenshot](/public/app.png)
 
 ---
 
