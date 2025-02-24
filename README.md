@@ -1,6 +1,6 @@
-# 🖌 CSS Color Variables Manager
+# 🧑‍🎨 CSS Color & Typography Variables Manager (Astro)
 
-A simple web app that allows users to **define, preview, and store CSS color variables** using **Hex or HSL** values.
+A **modern web app built with Astro** that allows users to **define, preview, and store CSS color & typography variables** using **Hex, HSL, REM, EM, or PX** values. Data is **persisted in localStorage** and dynamically updates CSS variables.
 
 ![App Screenshot](/public/app.png)
 
@@ -8,16 +8,17 @@ A simple web app that allows users to **define, preview, and store CSS color var
 
 ## 🚀 Features
 
-✅ **Add CSS Variables** → Define custom CSS variables (`primary-color`) using Hex or HSL.  
-✅ **Live Preview** → Displays color changes instantly.  
-✅ **Local Storage Support** → Saves color variables to **persist across sessions**.  
-✅ **Reset & Copy Functions** → Reset all colors or copy the generated CSS.  
+✅ **Define CSS Variables** → Store custom CSS color (`--primary-color`) and font (`--heading-size`) variables.  
+✅ **Live Preview** → Instantly update CSS variables & see changes.  
+✅ **Persistent Storage** → Saves variables to **localStorage** across sessions.  
+✅ **Reset & Copy Functions** → Easily reset variables or copy the generated CSS.  
+✅ **Built with Astro** → **Fast, modular, and SEO-friendly** static site generation.
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **HTML, CSS, JavaScript**
-- **LocalStorage API** for persistent data
-- **Vanilla JavaScript** for interactivity
-
+- **[Astro](https://astro.build/)** → Hybrid static site generator with SSR capabilities.
+- **React Components** (for interactive parts)
+- **CSS**
+- **LocalStorage API** (for persistent data)
