@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { isValidHex, isValidHSL } from "../utils/colorValueChecker";
 
 function VariableManager() {
 	const [designVars, setDesignVars] = useState(() => {
@@ -6,6 +7,9 @@ function VariableManager() {
 		return savedVars ? JSON.parse(savedVars) : { colors: {}, fonts: {} };
 	});
 
+	const hasColors = Object.keys(designVars.colors || {}).length > 0;
+	const hasFonts = Object.keys(designVars.fonts || {}).length > 0;
+	
 	const [cssOutput, setCssOutput] = useState("");
 	const [colorName, setColorName] = useState("");
 	const [colorValue, setColorValue] = useState("");
@@ -14,10 +18,14 @@ function VariableManager() {
 	const [fontValue, setFontValue] = useState(0);
 	const [fontUnit, setFontUnit] = useState("rem");
 
+	const [isCopyEnabled, setCopyEnabled] = useState(false);
+
 	useEffect(() => {
 		localStorage.setItem("design", JSON.stringify(designVars));
 
 		generateCSSOutput();
+
+		setCopyEnabled(hasColors || hasFonts);
 	}, [designVars]);
 
 	function generateCSSOutput() {
@@ -37,25 +45,46 @@ function VariableManager() {
 	function submitColors(e) {
 		e.preventDefault();
 
-		if (!colorName && !colorValue && !fontName && !fontValue) {
-			alert("Please provide either colors or font variables.");
+		// Ensure at least one valid entry (either a color or a font)
+		if (!(colorName && colorValue) && !(fontName && fontValue)) {
+			alert("Variable name and value required.");
 			return;
 		}
+
+		// Validate color format only if a color is being added
 		if (colorName && colorValue) {
+			if (!isValidHex(colorValue) && !isValidHSL(colorValue)) {
+				alert(
+					"Invalid color format! Use hex (#RRGGBB) or HSL (hsl(H, S%, L%))"
+				);
+				return;
+			}
+
+			// Add color to state
 			setDesignVars((prev) => ({
 				...prev,
 				colors: { ...prev.colors, [colorName]: colorValue },
 			}));
+
+			// Reset input fields for colors
 			setColorName("");
 			setColorValue("");
-		} else if (fontName && fontValue) {
+		}
+
+		// Add font only if font values exist
+		if (fontName && fontValue) {
 			setDesignVars((prev) => ({
 				...prev,
 				fonts: { ...prev.fonts, [fontName]: `${fontValue}${fontUnit}` },
 			}));
+
+			// Reset input fields for fonts
 			setFontName("");
 			setFontValue("");
 		}
+
+		// Enable the copy button if any variable exists
+		setCopyEnabled(true);
 	}
 
 	function resetAllVariables() {
@@ -68,7 +97,7 @@ function VariableManager() {
 		setCssOutput(":root { \n }");
 
 		// disable copy button since no code
-		setEnableCopy(false);
+		setCopyEnabled(false);
 
 		alert("All variables have been reset!");
 	}
@@ -161,7 +190,7 @@ function VariableManager() {
 						type="button"
 						id="copy-btn"
 						onClick={copyBtn}
-						disabled={Object.keys(designVars).length === 0}
+						disabled={!isCopyEnabled}
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
